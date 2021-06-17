@@ -1,54 +1,26 @@
-class Stats {
-    constructor (charCount = 0, 
-        wordCount = 0, 
-        paraCount = 0){
-        this.charCount = charCount;
-        this.wordCount = wordCount;
-        this.paraCount = paraCount;
-    }
+function calculateStats(e){
+    const cursorStart = this.selectionStart;
+    const cursorEnd = this.selectionEnd;
+    const charCount = this.textLength
+    console.log(e,cursorStart, cursorEnd)    
+    console.log(this.textLength)
+    console.log(stats);
+    stats.set('charCount', charCount);
+    updateStats();
+}
 
-    get(prop){
-        return !!this[prop] ? this[prop] : 'Property does not exist';
-    }
-
-    set(prop, val){
-        if(!!this[prop]){
-            this[prop] = val;
-            return this;
-        } return 'Property does not exist';
-
-    }
-
-    increment(prop){
-        if(!!this[prop]){
-            this[prop] += 1;
-            return this;
-        } return 'Property does not exist'
-    }
-
-    decrement(prop) {
-        if(!!this[prop]){
-            this[prop] -= 1;
-            return this;
-        } return 'Property does not exist'
-    }
+function updateStats(){
+    const charCountElem = document.getElementById('character-count');
+    charCountElem.innerText = stats.charCount; 
 }
 
 function init(){
     const stats = new Stats();
+    const inputTextElem = document.getElementById('input-text');
+    inputTextElem.oninput = calculateStats.call(stats);
+    inputTextElem.onchange = calculateStats.call(stats);
 
     console.log('START', inputTextElem.selectionStart)
-    function calculateStats(e){
-        const cursorStart = inputTextElem.selectionStart;
-        const cursorEnd = inputTextElem.selectionEnd;
-        const charCount = inputTextElem.textLength
-        console.log(e,cursorStart, cursorEnd)    
-        console.log(inputTextElem.textLength)
-        updateStats(charCount);
-    }
-
-    function updateStats(charCount){
-        const charCountElem = document.getElementById('character-count');
-        charCountElem.innerText = charCount; 
-    }
 }
+
+init();
